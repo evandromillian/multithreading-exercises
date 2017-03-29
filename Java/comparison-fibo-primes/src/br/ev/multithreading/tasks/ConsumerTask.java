@@ -2,6 +2,7 @@ package br.ev.multithreading.tasks;
 
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -11,20 +12,22 @@ public class ConsumerTask implements Runnable {
 
     private final BlockingQueue<Long> primosQueue;
     private final BlockingQueue<Long> fibosQueue;
+    private final CountDownLatch latch;
 
-    public ConsumerTask(BlockingQueue<Long> primosQueue, BlockingQueue<Long> fibosQueue) {
+    public ConsumerTask(BlockingQueue<Long> primosQueue, BlockingQueue<Long> fibosQueue, CountDownLatch latch) {
         this.primosQueue = primosQueue;
         this.fibosQueue = fibosQueue;
+        this.latch = latch;
     }
 
     @Override
     public void run() {
-        final Long minusOne = Long.valueOf(-1);
         boolean proximoPrimo = true;
         boolean proximoFibo = true;
         Long primeNum = Long.valueOf(0);
         Long fiboNum = Long.valueOf(0);
-        while(primeNum < 1000000) {
+
+        while(latch.getCount() > 0) {
             try {
                 primeNum = proximoPrimo ? primosQueue.poll(1000, TimeUnit.MILLISECONDS)
                                         : primeNum;
@@ -34,9 +37,6 @@ public class ConsumerTask implements Runnable {
                 if (primeNum == null || fiboNum == null) {
                     continue;
                 }
-
-                if (minusOne.equals(fiboNum) || minusOne.equals(primeNum))
-                    break;
 
                 if (fiboNum.equals(primeNum)) {
                     System.out.format("Achado numero %d igual\n", primeNum);
