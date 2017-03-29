@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="util">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/game-utils.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/recruiting-utils.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/libs/game-utils.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/recruiting-utils.jar!/" />
+    </SOURCES>
+  </library>
+</component>
